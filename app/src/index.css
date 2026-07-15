@@ -1,0 +1,18 @@
+@keyframes teumPulse {
+  0% { box-shadow: 0 0 0 0 rgba(49, 130, 247, .4); }
+  70% { box-shadow: 0 0 0 7px rgba(49, 130, 247, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(49, 130, 247, 0); }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Pretendard', system-ui, sans-serif;
+}
+
+button, input, textarea {
+  font-family: inherit;
+}

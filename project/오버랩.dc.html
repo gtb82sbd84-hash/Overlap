@@ -14,7 +14,7 @@
   body{margin:0}
 </style>
 </helmet>
-<div style="font-family:'Pretendard',system-ui,sans-serif;color:#191F28;background:#F7F8FA;min-height:100vh;padding:28px clamp(16px,4vw,44px) 60px;line-height:1.5;letter-spacing:-0.01em;box-sizing:border-box">
+<div style="font-family:'Pretendard',system-ui,sans-serif;color:#191F28;background:#F7F8FA;min-height:100vh;padding:28px clamp(16px,4vw,44px) 60px;line-height:1.5;letter-spacing:-0.01em;box-sizing:border-box;overflow-x:hidden">
 
   <!-- HEADER -->
   <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid #E5E8EB;margin-bottom:22px">
@@ -25,7 +25,7 @@
         <p style="margin:2px 0 0;color:#4E5968;font-size:13px;max-width:44ch">모두가 하나로 만나는 시간</p>
       </div>
     </div>
-    <nav style="display:flex;align-items:center;gap:10px">
+    <nav style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;max-width:100%">
       <button style="{{ scheduleNavStyle }}" onClick="{{ goToSchedule }}">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="2"></rect><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
         일정
@@ -456,52 +456,52 @@
       <h3 style="font-size:17px;font-weight:700;margin:0 0 5px">일정</h3>
       <p style="margin:0 0 20px;font-size:13px;color:#4E5968;max-width:60ch">확정된 회의와 진행 중인 투표를 여기서 확인할 수 있어요.</p>
 
-      <sc-if value="{{ hasConfirmedMeeting }}" hint-placeholder-val="{{ false }}">
+      <sc-for list="{{ confirmedMeetingCards }}" as="cm" hint-placeholder-count="1">
         <div style="background:linear-gradient(180deg,#FFFFFF,#FBFDFF);border:2px solid #3182F7;border-radius:18px;padding:22px;margin-bottom:16px;box-shadow:0 10px 28px -12px rgba(49,130,247,.28)">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px">
             <span style="font-size:11px;font-weight:700;color:#fff;background:#3182F7;border-radius:999px;padding:4px 10px">확정된 회의</span>
-            <button style="font-size:14px;font-weight:500;color:#4E5968;background:none;border:none;cursor:pointer;padding:0" onClick="{{ cancelFromSchedule }}">확정 취소</button>
+            <button style="font-size:14px;font-weight:500;color:#4E5968;background:none;border:none;cursor:pointer;padding:0" onClick="{{ cm.openCancel }}">확정 취소</button>
           </div>
-          <div style="font-size:17px;font-weight:700;color:#191F28;margin-bottom:8px">{{ confirmedMeeting.title }}</div>
+          <div style="font-size:17px;font-weight:700;color:#191F28;margin-bottom:8px">{{ cm.title }}</div>
           <div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:10px">
-            <span style="font-size:13px;color:#4E5968;font-weight:500">{{ confirmedMeeting.dayLabel }}</span>
-            <span style="font-variant-numeric:tabular-nums;font-weight:700;font-size:20px">{{ confirmedMeeting.time }}</span>
-          <div style="font-size:13px;color:#4E5968;margin-bottom:8px">{{ durationLabelText }}</div></div>
+            <span style="font-size:13px;color:#4E5968;font-weight:500">{{ cm.dayLabel }}</span>
+            <span style="font-variant-numeric:tabular-nums;font-weight:700;font-size:20px">{{ cm.time }}</span>
+          <div style="font-size:13px;color:#4E5968;margin-bottom:8px">{{ cm.durationLabel }}</div></div>
           
-          <div style="font-size:13px;color:#4E5968;margin-bottom:6px"><b style="color:#191F28;margin-right:6px">필참</b>{{ confirmedMeeting.reqNamesText }}</div>
-          <sc-if value="{{ confirmedMeeting.hasOptNames }}" hint-placeholder-val="{{ false }}">
-            <div style="font-size:13px;color:#4E5968;margin-bottom:6px"><b style="color:#191F28;margin-right:6px">선택</b>{{ confirmedMeeting.optNamesText }}</div>
+          <div style="font-size:13px;color:#4E5968;margin-bottom:6px"><b style="color:#191F28;margin-right:6px">필참</b>{{ cm.reqNamesText }}</div>
+          <sc-if value="{{ cm.hasOptNames }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:13px;color:#4E5968;margin-bottom:6px"><b style="color:#191F28;margin-right:6px">선택</b>{{ cm.optNamesText }}</div>
           </sc-if>
-          <sc-if value="{{ confirmedMeeting.hasLocation }}" hint-placeholder-val="{{ false }}">
-            <div style="font-size:13px;color:#3182F7;margin-top:6px;word-break:break-all">📍 {{ confirmedMeeting.location }}</div>
+          <sc-if value="{{ cm.hasLocation }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:13px;color:#3182F7;margin-top:6px;word-break:break-all">📍 {{ cm.location }}</div>
           </sc-if>
-          <sc-if value="{{ confirmedMeeting.hasMessage }}" hint-placeholder-val="{{ false }}">
-            <div style="font-size:12.5px;color:#4E5968;background:#F7F8FA;border-radius:10px;padding:10px 12px;margin-top:12px">{{ confirmedMeeting.message }}</div>
+          <sc-if value="{{ cm.hasMessage }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:12.5px;color:#4E5968;background:#F7F8FA;border-radius:10px;padding:10px 12px;margin-top:12px">{{ cm.message }}</div>
           </sc-if>
         </div>
-      </sc-if>
+      </sc-for>
 
-      <sc-if value="{{ hasActiveVote }}" hint-placeholder-val="{{ false }}">
+      <sc-for list="{{ activeVoteCards }}" as="av" hint-placeholder-count="1">
         <div style="background:#FFFFFF;border:1px solid #E5E8EB;border-radius:18px;padding:22px;margin-bottom:16px">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px">
             <span style="font-size:11px;font-weight:700;color:#3182F7;background:#EBF2FE;border-radius:999px;padding:4px 10px">진행 중인 투표</span>
-            <button style="font-size:14px;font-weight:500;color:#F04452;background:none;border:none;cursor:pointer;padding:0" onClick="{{ openVoteCancelConfirm }}">취소</button>
+            <button style="font-size:14px;font-weight:500;color:#F04452;background:none;border:none;cursor:pointer;padding:0" onClick="{{ av.openCancel }}">취소</button>
           </div>
-          <div style="font-size:17px;font-weight:700;color:#191F28;margin-bottom:8px">{{ activeVote.title }}</div>
-          <sc-if value="{{ activeVoteHasLocation }}" hint-placeholder-val="{{ false }}">
-            <div style="font-size:13px;color:#3182F7;margin-bottom:8px;word-break:break-all">📍 {{ activeVote.location }}</div>
+          <div style="font-size:17px;font-weight:700;color:#191F28;margin-bottom:8px">{{ av.title }}</div>
+          <sc-if value="{{ av.hasLocation }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:13px;color:#3182F7;margin-bottom:8px;word-break:break-all">📍 {{ av.location }}</div>
           </sc-if>
-          <div style="font-size:13px;color:#4E5968;margin-bottom:4px">마감 <b style="color:#191F28">{{ activeVote.deadlineLabel }}</b> · 응답 방식 <b style="color:#191F28">{{ activeVoteAnonLabel }}</b></div>
-          <div style="font-size:13px;color:#4E5968;margin-bottom:14px">참여 현황 <b style="color:#191F28">{{ activeVoteRespondedCount }} / {{ activeVote.totalCount }}명 응답</b><sc-if value="{{ showRespondentNames }}" hint-placeholder-val="{{ false }}"> · {{ respondentNamesText }}</sc-if></div>
-          <sc-if value="{{ activeVoteHasMessage }}" hint-placeholder-val="{{ false }}">
-            <div style="font-size:12.5px;color:#4E5968;background:#F7F8FA;border-radius:10px;padding:10px 12px;margin-bottom:14px">{{ activeVote.message }}</div>
+          <div style="font-size:13px;color:#4E5968;margin-bottom:4px">마감 <b style="color:#191F28">{{ av.deadlineLabel }}</b> · 응답 방식 <b style="color:#191F28">{{ av.anonLabel }}</b></div>
+          <div style="font-size:13px;color:#4E5968;margin-bottom:14px">참여 현황 <b style="color:#191F28">{{ av.respondedCount }} / {{ av.totalCount }}명 응답</b><sc-if value="{{ av.showRespondentNames }}" hint-placeholder-val="{{ false }}"> · {{ av.respondentNamesText }}</sc-if></div>
+          <sc-if value="{{ av.hasMessage }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:12.5px;color:#4E5968;background:#F7F8FA;border-radius:10px;padding:10px 12px;margin-bottom:14px">{{ av.message }}</div>
           </sc-if>
           
           <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 14px; margin-top: 10px">
-            <p style="font-size: 13px; color: #8B95A1; margin: 0">여러 후보에 중복 투표할 수 있어요.</p><button style="{{ voteActionStyle }}" title="{{ voteActionTitle }}" onClick="{{ voteActionHandler }}">{{ voteActionLabel }}</button>
+            <p style="font-size: 13px; color: #8B95A1; margin: 0">여러 후보에 중복 투표할 수 있어요.</p><button style="{{ av.voteActionStyle }}" title="{{ av.voteActionTitle }}" onClick="{{ av.voteActionHandler }}">{{ av.voteActionLabel }}</button>
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
-            <sc-for list="{{ activeVote.candidates }}" as="c" hint-placeholder-count="3">
+            <sc-for list="{{ av.candidates }}" as="c" hint-placeholder-count="3">
               <div style="{{ c.rowStyle }}" onClick="{{ c.onClick }}">
                 <div style="display:flex;align-items:baseline;gap:10px">
                   <span style="font-size:12.5px;color:#4E5968;font-weight:500">{{ c.day }}</span>
@@ -515,7 +515,7 @@
           </div>
           
         </div>
-      </sc-if>
+      </sc-for>
 
       <sc-if value="{{ scheduleEmpty }}" hint-placeholder-val="{{ false }}">
         <div style="background:#FFFFFF;border:1px solid #E5E8EB;border-radius:18px;padding:32px;text-align:center">
@@ -1004,7 +1004,7 @@ class Component extends DCLogic {
   state = {
     tab: "schedule", named: false,
     roles: Object.fromEntries(PEOPLE.map((p) => [p.id, p.role])),
-    votes: {}, confirmed: null, me: "jimin", allowMissing: false, excludedPeople: {},
+    votes: {}, me: "jimin", allowMissing: false, excludedPeople: {},
     periodOpen: false, calY: 2026, calM: 6, rangeStart: "2026-07-13", rangeEnd: "2026-07-17",
     lengthOpen: false, durationMin: 60,
     scopeOpen: false, scopeMode: "in", scopeOutSub: { weekday: true, weekend: false },
@@ -1016,7 +1016,7 @@ class Component extends DCLogic {
     toastVisible: false, toastMessage: "",
     deadlineOpen: false, deadlineY: 2026, deadlineM: 6, deadlineDate: "2026-07-17", deadlineTime: "18:00",
     rankExpanded: false,
-    cancelConfirmOpen: false, cancelNotifyEmail: true,
+    cancelConfirmId: null, cancelNotifyEmail: true,
     hoveredSlotKey: null,
     gcalDisconnectOpen: false,
     workScheduleByPerson: Object.fromEntries(PEOPLE.map((p) => [p.id, [0,1,2,3,4,5,6].map((dow) => ({
@@ -1024,10 +1024,10 @@ class Component extends DCLogic {
     }))])),
     workOpen: false, workAdvancedOpen: false,
     profileMenuOpen: false,
-    confirmedMeeting: null, activeVote: null,
-    voteCancelConfirmOpen: false, myVotedCandidates: {}, hoveredCandidateIdx: null,
+    confirmedMeetings: [],
+    activeVotes: [],
+    voteCancelConfirmId: null, myVotesByVoteId: {},
     confirmPreviewOpen: false, confirmPreviewData: null,
-    myVoteSelected: {},
     confirmMeetingTitle: "", confirmMeetingLocation: "", confirmMeetingMessage: "",
     voteMeetingTitle: "", voteMeetingLocation: "",
   };
@@ -1038,7 +1038,7 @@ class Component extends DCLogic {
   toggleExclude = (pid) => this.setState((s) => ({ excludedPeople: { ...s.excludedPeople, [pid]: !s.excludedPeople[pid] } }));
   cycleVote = (pid, dayIso, h) => {
     const key = `${pid}-${dayIso}-${h}`;
-    this.setState((s) => ({ votes: { ...s.votes, [key]: CYCLE[s.votes[key]] }, confirmed: null }));
+    this.setState((s) => ({ votes: { ...s.votes, [key]: CYCLE[s.votes[key]] } }));
   };
   extendPeriod = () => this.setState((s) => {
     const end = addDays(new Date(s.rangeEnd + "T00:00:00"), 7);
@@ -1046,14 +1046,15 @@ class Component extends DCLogic {
   });
   setAllowMissingTrue = () => this.setState({ allowMissing: true });
   setAllowMissingFalse = () => this.setState({ allowMissing: false });
-  resetVotesFn = () => this.setState({ votes: {}, confirmed: null });
+  resetVotesFn = () => this.setState({ votes: {} });
   confirmSlot = (key, dayLabel, time, durationMin, reqNames, optNames, title, location, message) => {
-    this.setState({
-      confirmed: key,
-      confirmedMeeting: { dayLabel, time, durationMin, reqNames, optNames, title, location, message },
+    const id = "cm" + Date.now() + Math.random().toString(36).slice(2, 7);
+    this.setState((s) => ({
+      confirmedMeetings: [...s.confirmedMeetings, { id, key, dayLabel, time, durationMin, reqNames, optNames, title, location, message }],
+      selectedSlots: {},
       tab: "schedule",
       toastVisible: true, toastMessage: "확정됐어요 · 일정에서 확인하세요",
-    });
+    }));
     setTimeout(() => this.setState({ toastVisible: false }), 3000);
   };
   openConfirmPreview = (key, dayLabel, time, durationMin, reqNames, optNames) => this.setState({
@@ -1074,15 +1075,16 @@ class Component extends DCLogic {
     this.confirmSlot(d.key, d.dayLabel, d.time, d.durationMin, d.reqNames, d.optNames, title, location, message);
   };
   goToSchedule = () => this.setState({ tab: "schedule" });
-  openCancelConfirm = () => this.setState({ cancelConfirmOpen: true });
-  closeCancelConfirm = () => this.setState({ cancelConfirmOpen: false });
+  openCancelConfirm = (id) => this.setState({ cancelConfirmId: id });
+  closeCancelConfirm = () => this.setState({ cancelConfirmId: null });
   toggleCancelNotifyEmail = () => this.setState((s) => ({ cancelNotifyEmail: !s.cancelNotifyEmail }));
   cancelConfirmedSlot = () => {
     const notify = this.state.cancelNotifyEmail;
-    this.setState({
-      confirmed: null, confirmedMeeting: null, cancelConfirmOpen: false,
+    this.setState((s) => ({
+      confirmedMeetings: s.confirmedMeetings.filter((m) => m.id !== s.cancelConfirmId),
+      cancelConfirmId: null,
       toastVisible: true, toastMessage: notify ? "확정이 취소됐어요 · 안내 메일을 보냈어요" : "확정이 취소됐어요",
-    });
+    }));
     setTimeout(() => this.setState({ toastVisible: false }), 3000);
   };
   setMe = (id) => this.setState({ me: id });
@@ -1350,43 +1352,49 @@ class Component extends DCLogic {
   setVoteAnon = () => this.setState({ voteAnon: true });
   setVoteNamed = () => this.setState({ voteAnon: false });
   sendVote = (candidates, deadlineLabel, anon, message, title, location) => {
-    this.setState({
+    const id = "v" + Date.now() + Math.random().toString(36).slice(2, 7);
+    this.setState((s) => ({
       voteModalOpen: false, selectedSlots: {}, voteMessage: "",
-      activeVote: { candidates, deadlineLabel, anon, message, title, location, totalCount: PEOPLE.length },
+      activeVotes: [...s.activeVotes, { id, candidates, deadlineLabel, anon, message, title, location, totalCount: PEOPLE.length }],
       tab: "schedule",
       toastVisible: true, toastMessage: `투표가 생성되어 참여자 전원에게 전송됐어요 (${candidates.length}개 후보) · 일정에서 확인하세요`,
-    });
+    }));
     setTimeout(() => this.setState({ toastVisible: false }), 3000);
   };
-  openVoteCancelConfirm = () => this.setState({ voteCancelConfirmOpen: true });
-  closeVoteCancelConfirm = () => this.setState({ voteCancelConfirmOpen: false });
+  openVoteCancelConfirm = (id) => this.setState({ voteCancelConfirmId: id });
+  closeVoteCancelConfirm = () => this.setState({ voteCancelConfirmId: null });
   dismissVoteCancelConfirm = () => {
-    this.setState({ voteCancelConfirmOpen: false, toastVisible: true, toastMessage: "투표가 취소되지 않고 유지돼요" });
+    this.setState({ voteCancelConfirmId: null, toastVisible: true, toastMessage: "투표가 취소되지 않고 유지돼요" });
     setTimeout(() => this.setState({ toastVisible: false }), 2500);
   };
-  confirmCancelVote = () => this.setState({ activeVote: null, voteCancelConfirmOpen: false, myVotedCandidates: {} });
-  setHoverCandidate = (idx) => this.setState({ hoveredCandidateIdx: idx });
-  clearHoverCandidate = () => this.setState((s) => (s.hoveredCandidateIdx === null ? null : { hoveredCandidateIdx: null }));
-  toggleSelectCandidate = (idx) => this.setState((s) => {
-    if (Object.values(s.myVotedCandidates).some(Boolean)) return null;
-    const sel = { ...s.myVoteSelected };
-    if (sel[idx]) delete sel[idx]; else sel[idx] = true;
-    return { myVoteSelected: sel };
+  confirmCancelVote = () => this.setState((s) => {
+    const id = s.voteCancelConfirmId;
+    const myVotesByVoteId = { ...s.myVotesByVoteId };
+    delete myVotesByVoteId[id];
+    return { activeVotes: s.activeVotes.filter((v) => v.id !== id), voteCancelConfirmId: null, myVotesByVoteId };
   });
-  submitCandidateVotes = () => this.setState((s) => ({
-    myVotedCandidates: { ...s.myVotedCandidates, ...s.myVoteSelected },
-    myVoteSelected: {},
-  }));
-  resetMyVotes = () => this.setState({ myVotedCandidates: {}, myVoteSelected: {} });
+  toggleSelectCandidate = (voteId, idx) => this.setState((s) => {
+    const entry = s.myVotesByVoteId[voteId] || { voted: {}, selected: {} };
+    if (Object.values(entry.voted).some(Boolean)) return null;
+    const sel = { ...entry.selected };
+    if (sel[idx]) delete sel[idx]; else sel[idx] = true;
+    return { myVotesByVoteId: { ...s.myVotesByVoteId, [voteId]: { ...entry, selected: sel } } };
+  });
+  submitCandidateVotes = (voteId) => this.setState((s) => {
+    const entry = s.myVotesByVoteId[voteId] || { voted: {}, selected: {} };
+    return { myVotesByVoteId: { ...s.myVotesByVoteId, [voteId]: { voted: { ...entry.voted, ...entry.selected }, selected: {} } } };
+  });
+  resetMyVotes = (voteId) => this.setState((s) => ({ myVotesByVoteId: { ...s.myVotesByVoteId, [voteId]: { voted: {}, selected: {} } } }));
   showSelectCandidateHint = () => {
     this.setState({ toastVisible: true, toastMessage: "회의 일자를 최소 한 개 선택해주세요" });
     setTimeout(() => this.setState({ toastVisible: false }), 2500);
   };
 
   renderVals() {
-    const { tab, named, roles, votes, confirmed, me, allowMissing, periodOpen, calY, calM, rangeStart, rangeEnd, lengthOpen, durationMin, scopeOpen, scopeMode, scopeOutSub, prefsByPerson, gcalByPerson, ruleAdding, ruleKind, ruleDays, ruleAnchor, ruleWhen, ruleLenH, ruleLenM, selectedSlots, voteModalOpen, voteAnon, voteMessage, toastVisible, toastMessage, deadlineOpen, deadlineY, deadlineM, deadlineDate, deadlineTime, rankExpanded, cancelConfirmOpen, cancelNotifyEmail, hoveredSlotKey, gcalDisconnectOpen, workScheduleByPerson, workOpen, workAdvancedOpen, profileMenuOpen, confirmedMeeting, activeVote, voteCancelConfirmOpen, myVotedCandidates, hoveredCandidateIdx, confirmPreviewOpen, confirmPreviewData, myVoteSelected } = this.state;
+    const { tab, named, roles, votes, me, allowMissing, periodOpen, calY, calM, rangeStart, rangeEnd, lengthOpen, durationMin, scopeOpen, scopeMode, scopeOutSub, prefsByPerson, gcalByPerson, ruleAdding, ruleKind, ruleDays, ruleAnchor, ruleWhen, ruleLenH, ruleLenM, selectedSlots, voteModalOpen, voteAnon, voteMessage, toastVisible, toastMessage, deadlineOpen, deadlineY, deadlineM, deadlineDate, deadlineTime, rankExpanded, cancelConfirmId, cancelNotifyEmail, hoveredSlotKey, gcalDisconnectOpen, workScheduleByPerson, workOpen, workAdvancedOpen, profileMenuOpen, confirmedMeetings, activeVotes, voteCancelConfirmId, myVotesByVoteId, confirmPreviewOpen, confirmPreviewData } = this.state;
     const { confirmMeetingTitle, confirmMeetingLocation, confirmMeetingMessage, ruleSlotHours, ruleCalSelected } = this.state;
     const livePeople = PEOPLE.map((p) => ({ ...p, prefs: prefsByPerson[p.id], workSchedule: workScheduleByPerson[p.id] }));
+    const confirmedKeys = new Set(confirmedMeetings.map((m) => m.key));
     const excludedPeople = this.state.excludedPeople;
     const activePeople = livePeople.filter((p) => !excludedPeople[p.id]);
     const QUICK_LENS = [15, 30, 60, 90, 120];
@@ -1466,14 +1474,15 @@ class Component extends DCLogic {
 
     const all = [];
     days.forEach((d, dayIdx) => { HOURS.forEach((h) => { all.push(scoreAny(activePeople, d, h, roles, votes, scopeMode, dayIdx * 1000 + h)); }); });
-    const hard = all.filter((s) => s.miss === 0);
+    const availableAll = all.filter((s) => !confirmedKeys.has(`${s.day.iso}-${s.h}`));
+    const hard = availableAll.filter((s) => s.miss === 0);
     let solvedMode, solvedList;
     if (hard.length) {
       hard.sort((a, b) => a.dis - b.dis || b.like - a.like || b.optIn - a.optIn || a.order - b.order);
       solvedMode = "normal"; solvedList = hard;
     } else if (allowMissing) {
-      all.sort((a, b) => a.miss - b.miss || a.dis - b.dis || b.like - a.like || b.optIn - a.optIn || a.order - b.order);
-      solvedMode = "missing"; solvedList = all;
+      availableAll.sort((a, b) => a.miss - b.miss || a.dis - b.dis || b.like - a.like || b.optIn - a.optIn || a.order - b.order);
+      solvedMode = "missing"; solvedList = availableAll;
     } else {
       solvedMode = "empty"; solvedList = [];
     }
@@ -1535,6 +1544,7 @@ class Component extends DCLogic {
         const rk = rankOf(d.iso, h);
         const key = `${d.iso}-${h}`;
         if (c.miss > 0) return { bg: "repeating-linear-gradient(45deg,#F0F1F4,#F0F1F4 5px,#E8E9EE 5px,#E8E9EE 10px)", hasRank: false, rank: 0, rankLabel: "", title: "필참 참석 불가", clickable: false, onClick: () => {}, cellStyle: "" };
+        if (confirmedKeys.has(key)) return { bg: "repeating-linear-gradient(45deg,#EBF2FE,#EBF2FE 5px,#DCE9FD 5px,#DCE9FD 10px)", hasRank: false, rank: 0, rankLabel: "", title: "이미 확정된 회의예요", clickable: false, onClick: () => {}, cellStyle: "cursor:not-allowed" };
         const isSelected = !!selectedSlots[key];
         return {
           bg: cellBg(net), hasRank: !!rk, rank: rk || 0, rankLabel: rk ? `${rk}순위` : "",
@@ -1576,8 +1586,8 @@ class Component extends DCLogic {
         reasons: parts,
         showSeats: isFirst && named, seats,
         showRevealHint: isFirst && !named,
-        isConfirmed: confirmed === key,
-        showConfirmBtn: confirmed !== key && hoveredSlotKey === key,
+        isConfirmed: false,
+        showConfirmBtn: hoveredSlotKey === key || (isSelected && Object.keys(selectedSlots).length === 1),
         confirm: () => {
           const reqNames = slot.seats.filter((x) => x.role === "required").map((x) => x.p.name);
           const optNames = slot.seats.filter((x) => x.role === "optional").map((x) => x.p.name);
@@ -1649,59 +1659,60 @@ class Component extends DCLogic {
         : "display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;background:none;border:none;border-radius:8px;padding:9px 10px;font-size:14px;font-weight:500;color:#191F28;cursor:pointer",
       clickLogout: this.clickLogout,
       isSetup: tab === "setup", isDecide: tab === "decide", isSettings: tab === "settings", isSchedule: tab === "schedule",
-      hasConfirmedMeeting: !!confirmed && !!confirmedMeeting,
-      confirmedMeeting: confirmedMeeting ? {
-        ...confirmedMeeting,
-        reqNamesText: confirmedMeeting.reqNames.join(" · "),
-        hasOptNames: confirmedMeeting.optNames.length > 0,
-        optNamesText: confirmedMeeting.optNames.join(" · "),
-        hasLocation: !!confirmedMeeting.location,
-        hasMessage: !!confirmedMeeting.message,
-      } : {},
-      cancelFromSchedule: this.openCancelConfirm,
-      hasActiveVote: !!activeVote,
-      activeVote: activeVote ? {
-        ...activeVote,
-        candidates: activeVote.candidates.map((c, idx) => {
-          const voted = !!myVotedCandidates[idx];
-          const selected = !!myVoteSelected[idx];
-          const locked = Object.values(myVotedCandidates).some(Boolean);
-          return {
-            ...c, idx, voted, selected,
-            onClick: locked ? () => {} : () => this.toggleSelectCandidate(idx),
-            rowStyle: voted
-              ? "display:flex;align-items:center;justify-content:space-between;gap:10px;background:#E3F9ED;border:1px solid #0AB259;border-radius:10px;padding:6px 12px;height:48px;box-sizing:border-box;cursor:default"
-              : selected
-                ? "display:flex;align-items:center;justify-content:space-between;gap:10px;background:#EBF2FE;border:1.5px solid #3182F7;border-radius:10px;padding:5.5px 11.5px;height:48px;box-sizing:border-box;cursor:pointer"
-                : `display:flex;align-items:center;justify-content:space-between;gap:10px;background:#F7F8FA;border:1px solid transparent;border-radius:10px;padding:6px 12px;height:48px;box-sizing:border-box;cursor:${locked ? "default" : "pointer"};opacity:${locked ? ".5" : "1"}`,
-          };
-        }),
-      } : { candidates: [], totalCount: 0 },
-      activeVoteAnonLabel: activeVote && activeVote.anon ? "익명" : "실명",
-      activeVoteRespondedCount: Object.values(myVotedCandidates).some(Boolean) ? 1 : 0,
-      showRespondentNames: !!(activeVote && !activeVote.anon && Object.values(myVotedCandidates).some(Boolean)),
-      respondentNamesText: meP.name,
-      hasMyVotes: Object.values(myVotedCandidates).some(Boolean),
-      resetMyVotes: this.resetMyVotes,
-      hasSelectedCandidates: Object.values(myVoteSelected).some(Boolean),
-      submitCandidateVotes: this.submitCandidateVotes,
-      voteActionLabel: Object.values(myVotedCandidates).some(Boolean) ? "다시 투표하기" : "투표하기",
-      voteActionHandler: Object.values(myVotedCandidates).some(Boolean)
-        ? this.resetMyVotes
-        : (Object.values(myVoteSelected).some(Boolean) ? this.submitCandidateVotes : this.showSelectCandidateHint),
-      voteActionStyle: Object.values(myVotedCandidates).some(Boolean)
-        ? "font-weight:600;font-size:14px;background:#fff;color:#4E5968;border:1px solid #E5E8EB;border-radius:999px;padding:8px 15px;cursor:pointer"
-        : (Object.values(myVoteSelected).some(Boolean)
-          ? "font-weight:700;font-size:14px;background:#3182F7;color:#fff;border:none;border-radius:999px;padding:9px 16px;cursor:pointer"
-          : "font-weight:700;font-size:14px;background:#DCE3EA;color:#8B95A1;border:none;border-radius:999px;padding:9px 16px;cursor:pointer"),
-      voteActionTitle: (!Object.values(myVotedCandidates).some(Boolean) && !Object.values(myVoteSelected).some(Boolean))
-        ? "회의 일자를 최소 한 개 선택해주세요" : "",
-      activeVoteHasMessage: !!(activeVote && activeVote.message),
-      activeVoteHasLocation: !!(activeVote && activeVote.location),
-      openVoteCancelConfirm: this.openVoteCancelConfirm,
-      voteCancelConfirmOpen, closeVoteCancelConfirm: this.closeVoteCancelConfirm, confirmCancelVote: this.confirmCancelVote,
+      confirmedMeetingCards: confirmedMeetings.map((cm) => ({
+        id: cm.id,
+        title: cm.title, dayLabel: cm.dayLabel, time: cm.time,
+        durationLabel: durationLabel(cm.durationMin),
+        reqNamesText: cm.reqNames.join(" · "),
+        hasOptNames: cm.optNames.length > 0,
+        optNamesText: cm.optNames.join(" · "),
+        hasLocation: !!cm.location, location: cm.location,
+        hasMessage: !!cm.message, message: cm.message,
+        openCancel: () => this.openCancelConfirm(cm.id),
+      })),
+      activeVoteCards: activeVotes.map((av) => {
+        const myVotes = myVotesByVoteId[av.id] || { voted: {}, selected: {} };
+        const hasMyVotes = Object.values(myVotes.voted).some(Boolean);
+        const hasSelected = Object.values(myVotes.selected).some(Boolean);
+        return {
+          id: av.id,
+          title: av.title, hasLocation: !!av.location, location: av.location,
+          deadlineLabel: av.deadlineLabel,
+          anonLabel: av.anon ? "익명" : "실명",
+          respondedCount: hasMyVotes ? 1 : 0, totalCount: av.totalCount,
+          showRespondentNames: !av.anon && hasMyVotes,
+          respondentNamesText: meP.name,
+          hasMessage: !!av.message, message: av.message,
+          openCancel: () => this.openVoteCancelConfirm(av.id),
+          voteActionLabel: hasMyVotes ? "다시 투표하기" : "투표하기",
+          voteActionHandler: hasMyVotes
+            ? () => this.resetMyVotes(av.id)
+            : (hasSelected ? () => this.submitCandidateVotes(av.id) : this.showSelectCandidateHint),
+          voteActionStyle: hasMyVotes
+            ? "font-weight:600;font-size:14px;background:#fff;color:#4E5968;border:1px solid #E5E8EB;border-radius:999px;padding:8px 15px;cursor:pointer"
+            : (hasSelected
+              ? "font-weight:700;font-size:14px;background:#3182F7;color:#fff;border:none;border-radius:999px;padding:9px 16px;cursor:pointer"
+              : "font-weight:700;font-size:14px;background:#DCE3EA;color:#8B95A1;border:none;border-radius:999px;padding:9px 16px;cursor:pointer"),
+          voteActionTitle: (!hasMyVotes && !hasSelected) ? "회의 일자를 최소 한 개 선택해주세요" : "",
+          candidates: av.candidates.map((c, idx) => {
+            const voted = !!myVotes.voted[idx];
+            const selected = !!myVotes.selected[idx];
+            const locked = hasMyVotes;
+            return {
+              ...c, idx, voted, selected,
+              onClick: locked ? () => {} : () => this.toggleSelectCandidate(av.id, idx),
+              rowStyle: voted
+                ? "display:flex;align-items:center;justify-content:space-between;gap:10px;background:#E3F9ED;border:1px solid #0AB259;border-radius:10px;padding:6px 12px;height:48px;box-sizing:border-box;cursor:default"
+                : selected
+                  ? "display:flex;align-items:center;justify-content:space-between;gap:10px;background:#EBF2FE;border:1.5px solid #3182F7;border-radius:10px;padding:5.5px 11.5px;height:48px;box-sizing:border-box;cursor:pointer"
+                  : `display:flex;align-items:center;justify-content:space-between;gap:10px;background:#F7F8FA;border:1px solid transparent;border-radius:10px;padding:6px 12px;height:48px;box-sizing:border-box;cursor:${locked ? "default" : "pointer"};opacity:${locked ? ".5" : "1"}`,
+            };
+          }),
+        };
+      }),
+      voteCancelConfirmOpen: !!voteCancelConfirmId, closeVoteCancelConfirm: this.closeVoteCancelConfirm, confirmCancelVote: this.confirmCancelVote,
       dismissVoteCancelConfirm: this.dismissVoteCancelConfirm,
-      scheduleEmpty: !(!!confirmed && !!confirmedMeeting) && !activeVote,
+      scheduleEmpty: confirmedMeetings.length === 0 && activeVotes.length === 0,
       goToDecideFromSchedule: () => this.setTab("setup"),
       confirmPreviewOpen,
       confirmPreview: confirmPreviewData ? {
@@ -1834,9 +1845,9 @@ class Component extends DCLogic {
       hasMoreRanks, remainingRanksCount, rankExpanded,
       rankMoreLabel: rankExpanded ? "접기" : `더보기 (${remainingRanksCount}개 더 있음)`,
       toggleRankExpanded: this.toggleRankExpanded,
-      cancelConfirmOpen, cancelNotifyEmail,
+      cancelConfirmOpen: !!cancelConfirmId, cancelNotifyEmail,
       openCancelConfirm: this.openCancelConfirm, closeCancelConfirm: this.closeCancelConfirm,
-      openCancelConfirmStop: (e) => { e.stopPropagation(); this.openCancelConfirm(); },
+      openCancelConfirmStop: (e) => { e.stopPropagation(); },
       toggleCancelNotifyEmail: this.toggleCancelNotifyEmail, cancelConfirmedSlot: this.cancelConfirmedSlot,
       cancelCheckStyle: cancelNotifyEmail
         ? "width:18px;height:18px;border-radius:5px;background:#3182F7;border:1.5px solid #3182F7;cursor:pointer;display:grid;place-items:center;padding:0;flex:none;box-sizing:border-box"
